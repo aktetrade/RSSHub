@@ -9,6 +9,7 @@ import cache from '@/utils/cache';
 import logger from '@/utils/logger';
 import ofetch from '@/utils/ofetch';
 import proxy from '@/utils/proxy';
+import { collectTimelineEntries } from '@/utils/twitter-timeline-entries';
 
 import { baseUrl, bearerToken, gqlFeatures, gqlMap, thirdPartySupportedAPI } from './constants';
 // import login from './login';
@@ -288,11 +289,7 @@ export const paginationTweets = async (endpoint: string, userId: number | undefi
         return [];
     }
 
-    const moduleItems = instructions.find((i) => i.type === 'TimelineAddToModule')?.moduleItems;
-    const entries = instructions.find((i) => i.type === 'TimelineAddEntries')?.entries;
-    const gridEntries = entries.find((i) => i.entryId === 'profile-grid-0')?.content?.items;
-
-    return gridEntries || moduleItems || entries || [];
+    return collectTimelineEntries(instructions);
 };
 
 const hydrateLegacyUser = (legacy: any, tweet: any) => {
