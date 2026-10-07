@@ -63,7 +63,9 @@ const getUserTweets = (id: string, params?: ApiParams) =>
                 withQuickPromoteEligibilityTweetFields: true,
                 withVoice: true,
                 withV2Timeline: true,
-            })
+            }),
+            ['profile-conversation-'],
+            id
         )
     );
 
